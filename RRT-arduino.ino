@@ -346,7 +346,7 @@ void loop() {
         //Serial.print("resultado");
         if ( test1 == test2) { //comparamos
           
-          resultado = true;
+          
           //     Serial.println(" ");
 
           //            Serial.print("[");
@@ -525,7 +525,10 @@ void loop() {
       break;
 
     }
-    
+    j=j+1; 
   }
- j=j+1;
+     if (resultado == false ) { //sirve como señal si no se ha llegado a ser verdadero  que se ha llegado a una trayectoria  se vuelve a reiniciar los ciclos
+    j = 0;
+    cont = -1;
+  }
 }
