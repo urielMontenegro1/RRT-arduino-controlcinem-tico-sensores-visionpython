@@ -25,7 +25,7 @@
  3=RRT+suavizado
  4=RRT+suavizado+iterpolación
 */
-int opc = 1; 
+//int opc = 1; //por el momento no es necesario 
 //configuracion de posiciones deseadas en x y y
 float xd = 200; //cm
 float yd = 150; //cm
