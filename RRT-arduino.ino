@@ -25,7 +25,7 @@
  3=RRT+suavizado
  4=RRT+suavizado+iterpolación
 */
-//int opc = 1; //por el momento no es necesario 
+int opc = 1; 
 //configuracion de posiciones deseadas en x y y
 float xd = 200; //cm
 float yd = 150; //cm
@@ -445,6 +445,11 @@ void loop() {
 
 
 
+   if(opc==1){
+        mapaxf[0]=0;
+        mapayf[0]=0;
+        cont=1;
+        }else
       Serial.print("mapeado x,y");
       for (int i20 = 0; i20 <= cont; i20++) {
         mapaxf[cont] = xd;
@@ -461,7 +466,7 @@ void loop() {
       Serial.println(" ");
 
       /////////////////////////////////////////SUAVIZADO DE TRAYECTORIA
-
+     if(opc==3 || opc==4){
       for (int i16 = 0; i16 <= cont; i16++) {
         psx[i16] = mapaxf[i16];
         psy[i16] = mapayf[i16];
@@ -469,8 +474,8 @@ void loop() {
         //puedes cambiar los parametros alpha y betha
         alpha = 0.01;
         betha = 0.02;
-        psx[i16] = psx[i16] + alpha * (mapax1[i16] - psx[i16]) + betha * (psx[i16 + 1] + psx[i16 - 1] - 2 * psx[i16]);
-        psy[i16] = psy[i16] + alpha * (mapay1[i16] - psy[i16]) + betha * (psy[i16 + 1] + psy[i16 - 1] - 2 * psy[i16]);
+        psx[i16] = psx[i16] + alpha * (mapaxf[i16] - psx[i16]) + betha * (psx[i16 + 1] + psx[i16 - 1] - 2 * psx[i16]);
+        psy[i16] = psy[i16] + alpha * (mapayf[i16] - psy[i16]) + betha * (psy[i16 + 1] + psy[i16 - 1] - 2 * psy[i16]);
         Serial.println("mapa ");
         Serial.print("[");
         Serial.print(mapaxf[i16]);
@@ -488,9 +493,9 @@ void loop() {
 
       }
       Serial.println(" ");
-
+     }
       /////////////////////////////////ITERPOLACIÓN O AGREGAR PUNTOS
-
+     if(opc==4){
       Serial.print("iterpolacion");
       float alphai;
       for (int i17 = 0; i17 <= cont; i17++) {
@@ -511,7 +516,7 @@ void loop() {
 
       }
       Serial.println(" ");
-
+      }
       Serial.println(" ");
 
       //               Serial.print("Source y target");   Serial.println(" ");
@@ -525,10 +530,13 @@ void loop() {
       break;
 
     }
-    j=j+1; 
+ 
+    j=j+1;
   }
-     if (resultado == false ) { //sirve como señal si no se ha llegado a ser verdadero  que se ha llegado a una trayectoria  se vuelve a reiniciar los ciclos
+
+    if (resultado == false ) {
     j = 0;
     cont = -1;
+    cont4=-1;
   }
 }
